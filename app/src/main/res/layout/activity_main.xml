@@ -72,15 +72,32 @@
                 android:text="like张三" />
 
             <Button
-                android:id="@+id/insert_10_w_data"
+                android:id="@+id/insert_one_like_zhujain"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:text="添加10万条数据" />
+                android:text="最后一条数据的主键" />
 
 
+            <Button
+                android:id="@+id/insert_one_suoyin"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:text="最后一条数据的索引" />
+
+            <Button
+                android:id="@+id/insert_one_create_suoyin"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:text="创建索引" />
 
             <Button
                 android:id="@+id/insert_100_w_data"
@@ -92,41 +109,25 @@
                 android:text="添加100万条数据" />
 
             <Button
-                android:id="@+id/insert_500_w_data"
+                android:id="@+id/insert_200_w_data"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:text="添加500万条数据" />
+                android:text="添加200万条数据" />
 
 
             <Button
-                android:id="@+id/insert_800_w_data"
+                android:id="@+id/insert_300_w_data"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:text="添加800万条数据" />
+                android:text="添加300万条数据" />
 
-            <Button
-                android:id="@+id/insert_900_w_data"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:text="添加900万条数据" />
 
-            <Button
-                android:id="@+id/insert_1000_w_data"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:text="添加1000万条数据" />
 
         </LinearLayout>
     </ScrollView>

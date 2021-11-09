@@ -10,6 +10,7 @@ class OrderDBHelper : SQLiteOpenHelper {
         const val TABLENAME = "Orders";
 
         const val ID = "_id";
+        const val MESSAGEID = "messageUId"
         const val CUSTOMNAME = "customName"
         const val ORDERPRICE = "orderPrice"
         const val COUNTRY = "country";
@@ -20,11 +21,14 @@ class OrderDBHelper : SQLiteOpenHelper {
     override fun onCreate(db: SQLiteDatabase) {
         val sql = "CREATE TABLE IF NOT EXISTS " + TABLENAME + "(" +
                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                MESSAGEID + " TEXT, " +
                 CUSTOMNAME + " TEXT, " +
                 ORDERPRICE + " TEXT, " +
                 COUNTRY + " TEXT " +
                 ");"
         db.execSQL(sql)
+
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

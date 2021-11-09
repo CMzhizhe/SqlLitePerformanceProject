@@ -1,6 +1,5 @@
 package com.gxx.testdbapplication
 
-import android.R.id
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
@@ -9,8 +8,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.gxx.testdbapplication.db.OrderDBHelper.Companion.ID
+import com.gxx.testdbapplication.db.OrderDBHelper.Companion.MESSAGEID
 import com.gxx.testdbapplication.db.OrderDBHelper.Companion.TABLENAME
 import com.gxx.testdbapplication.db.OrderDao
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -28,40 +29,80 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         ordersDao.orderDBHelper.writableDatabase
 
         showSQLMsg = findViewById<View>(R.id.showSQLMsg) as TextView
-        findViewById<View>(R.id.insert_10_w_data).setOnClickListener(this)
         findViewById<View>(R.id.insert_100_w_data).setOnClickListener(this)
-        findViewById<View>(R.id.insert_500_w_data).setOnClickListener(this)
-        findViewById<View>(R.id.insert_800_w_data).setOnClickListener(this)
+        findViewById<View>(R.id.insert_200_w_data).setOnClickListener(this)
+        findViewById<View>(R.id.insert_300_w_data).setOnClickListener(this)
         findViewById<View>(R.id.insert_one_delete_zhangsan).setOnClickListener(this)
         findViewById<View>(R.id.insert_one_like_zhangsan).setOnClickListener(this)
         findViewById<View>(R.id.insert_one_data).setOnClickListener(this)
         findViewById<View>(R.id.insert_find_last_data).setOnClickListener(this)
         findViewById<View>(R.id.insert_find_update_last_data).setOnClickListener(this)
-
+        findViewById<View>(R.id.insert_one_like_zhujain).setOnClickListener(this);
+        findViewById<View>(R.id.insert_one_create_suoyin).setOnClickListener(this)
+        findViewById<View>(R.id.insert_one_suoyin).setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
         when (view.getId()) {
-            R.id.insert_one_like_zhangsan->{
-                Thread(object : Runnable{
+            R.id.insert_one_suoyin -> {
+                Thread(object : Runnable {
+                    override fun run() {
+                        val startTime = System.currentTimeMillis()
+                        val db: SQLiteDatabase = ordersDao.orderDBHelper.getReadableDatabase();
+                        val cursor = db.rawQuery("select * from " + TABLENAME, null)
+                        cursor.moveToLast()
+                        val messageUID = cursor.getString(cursor.getColumnIndex(MESSAGEID))
+                        cursor.moveToFirst();
+                        db.rawQuery(
+                            "select * from " + TABLENAME + " where messageUId = ? ",
+                            arrayOf(messageUID)
+                        )
+                        val disTime = System.currentTimeMillis() - startTime
+                        runOnUiThread { showSQLMsg.setText("查询出来的messageUID = " + messageUID + " \n " + "毫秒 = " + disTime) }
+                        cursor.close();
+                        db.close()
+                    }
+                }).start()
+            }
+
+            R.id.insert_one_create_suoyin -> {
+                val db: SQLiteDatabase = ordersDao.orderDBHelper.getReadableDatabase()
+                val sql2 = "CREATE UNIQUE INDEX index_name on " + TABLENAME + "(" + MESSAGEID + ")";
+                db.execSQL(sql2)
+                db.close()
+            }
+
+            R.id.insert_one_like_zhangsan -> {
+                Thread(object : Runnable {
                     override fun run() {
                         val startTime = System.currentTimeMillis()
                         val db: SQLiteDatabase = ordersDao.orderDBHelper.getReadableDatabase()
-                        db.execSQL("select * from " + TABLENAME + " where customName like ? ", arrayOf("%张三%"));
-
+                        val cursor = db.rawQuery(
+                            "select * from " + TABLENAME + " where customName like '%张三%'",
+                            null
+                        )
+                        val list = mutableListOf<String>()
+                        while (cursor.moveToNext()) {
+                            val _id = cursor.getInt(cursor.getColumnIndex(ID))
+                            list.add(_id.toString());
+                        }
                         val disTime = System.currentTimeMillis() - startTime
-                        runOnUiThread { showSQLMsg.setText("毫秒 = " + disTime) }
-                        db.close();
+                        runOnUiThread { showSQLMsg.setText("查询出来的ID = " + list.toString() + " \n " + "毫秒 = " + disTime) }
+                        cursor.close();
+                        db.close()
                     }
                 }).start();
             }
 
-            R.id.insert_one_delete_zhangsan->{
-                Thread(object : Runnable{
+            R.id.insert_one_delete_zhangsan -> {
+                Thread(object : Runnable {
                     override fun run() {
                         val startTime = System.currentTimeMillis()
                         val db: SQLiteDatabase = ordersDao.orderDBHelper.getWritableDatabase()
-                        db.execSQL("delete from " + TABLENAME + " where customName=?", arrayOf("张三"));
+                        db.execSQL(
+                            "delete from " + TABLENAME + " where customName=?",
+                            arrayOf("张三")
+                        );
                         val disTime = System.currentTimeMillis() - startTime
                         runOnUiThread { showSQLMsg.setText("毫秒 = " + disTime) }
                         db.close();
@@ -74,7 +115,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     override fun run() {
                         val startTime = System.currentTimeMillis()
                         val db: SQLiteDatabase = ordersDao.orderDBHelper.getReadableDatabase();
-                        val cursor = db.rawQuery("select * from " + TABLENAME + " where customName = ? ", arrayOf("张三"))
+                        val cursor = db.rawQuery(
+                            "select * from " + TABLENAME + " where customName = ? ",
+                            arrayOf("张三")
+                        )
                         val list = mutableListOf<String>()
                         while (cursor.moveToNext()) {
                             val _id = cursor.getInt(cursor.getColumnIndex(ID))
@@ -93,7 +137,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     override fun run() {
                         val startTime = System.currentTimeMillis()
                         val db: SQLiteDatabase = ordersDao.orderDBHelper.getReadableDatabase();
-                        db.execSQL("update " + TABLENAME + " set customName= '李四'  where customName=?", arrayOf("张三"))
+                        db.execSQL(
+                            "update " + TABLENAME + " set customName= '李四'  where customName=?",
+                            arrayOf("张三")
+                        )
                         val disTime = System.currentTimeMillis() - startTime
                         runOnUiThread { showSQLMsg.setText("毫秒 =" + disTime) }
                         db.close()
@@ -114,17 +161,38 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 db.close()
             }
 
-            R.id.insert_500_w_data->{
-                dowork(500)
+            R.id.insert_one_like_zhujain -> {
+                Thread(object : Runnable {
+                    override fun run() {
+                        val startTime = System.currentTimeMillis()
+                        val db: SQLiteDatabase = ordersDao.orderDBHelper.getReadableDatabase()
+                        val cursor = db.rawQuery(
+                            "select * from " + TABLENAME + " where  _id =? ",
+                            arrayOf("2000018")
+                        )
+                        val list = mutableListOf<String>()
+                        while (cursor.moveToNext()) {
+                            val _id = cursor.getInt(cursor.getColumnIndex(ID))
+                            list.add(_id.toString());
+                        }
+                        val disTime = System.currentTimeMillis() - startTime
+                        runOnUiThread { showSQLMsg.setText("查询出来的ID = " + list.toString() + " \n " + "毫秒 = " + disTime) }
+                        cursor.close();
+                        db.close()
+                    }
+                }).start();
             }
-
-            R.id.insert_10_w_data -> {
-                dowork(10)
-            }
-
 
             R.id.insert_100_w_data -> {
                 dowork(100)
+            }
+
+            R.id.insert_200_w_data -> {
+                dowork(200)
+            }
+
+            R.id.insert_300_w_data -> {
+                dowork(300)
             }
         }
     }
@@ -138,7 +206,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             try {
                 db.beginTransaction()
                 for (i in 0 until count * 10000) {
-                    db.execSQL("insert into " + TABLENAME + " ( customName, orderPrice, country) values ('Arc', 'test', 'China')")
+                    db.execSQL(
+                        "insert into " + TABLENAME + " ( customName,messageUId, orderPrice, country) values ('Arc', '" + UUID.randomUUID()
+                            .toString() + "', 'test', 'China')"
+                    )
                     Log.i(TAG, "第" + i + "条")
                 }
                 db.setTransactionSuccessful()
