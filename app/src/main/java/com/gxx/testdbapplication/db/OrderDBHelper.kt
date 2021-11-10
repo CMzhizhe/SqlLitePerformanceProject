@@ -14,6 +14,7 @@ class OrderDBHelper : SQLiteOpenHelper {
         const val CUSTOMNAME = "customName"
         const val ORDERPRICE = "orderPrice"
         const val COUNTRY = "country";
+        const val RANDUMNUMBER = "randumNumber";
     }
 
     constructor(context: Context) : super(context, DBNAME, null, 1) {}
@@ -24,6 +25,7 @@ class OrderDBHelper : SQLiteOpenHelper {
                 MESSAGEID + " TEXT, " +
                 CUSTOMNAME + " TEXT, " +
                 ORDERPRICE + " TEXT, " +
+                RANDUMNUMBER + " INTEGER, " +
                 COUNTRY + " TEXT " +
                 ");"
         db.execSQL(sql)

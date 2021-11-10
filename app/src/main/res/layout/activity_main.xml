@@ -8,8 +8,6 @@
     tools:context=".MainActivity">
 
 
-
-
     <TextView
         android:id="@+id/showSQLMsg"
         android:layout_width="fill_parent"
@@ -99,6 +97,36 @@
                 android:layout_marginRight="10dp"
                 android:text="创建索引" />
 
+
+            <Button
+                android:id="@+id/insert_100_w_order_by_data"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:text="100w 排序" />
+
+            <Button
+                android:id="@+id/insert_200_w_order_by_data"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:text="200w 排序" />
+
+
+            <Button
+                android:id="@+id/insert_300_w_order_by_data"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:text="300w 排序" />
+
+
             <Button
                 android:id="@+id/insert_100_w_data"
                 android:layout_width="match_parent"
@@ -126,7 +154,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:text="添加300万条数据" />
-
 
 
         </LinearLayout>
